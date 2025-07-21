@@ -1,0 +1,15 @@
+name: forum-hub
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    shm_size: 128mb
+    environment:
+      MYSQL_ROOT_PASSWORD: forumhub122
+      MYSQL_DATABASE: forumhubdb
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+volumes:
+  mysql_data:
