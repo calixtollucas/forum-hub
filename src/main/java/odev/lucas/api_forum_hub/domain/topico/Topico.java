@@ -36,4 +36,10 @@ public class Topico {
     @ManyToOne()
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    public void atualizar(TopicoAtualizacaoDto atualizacaoDto, Curso curso) {
+        this.titulo = atualizacaoDto.titulo() != null ? atualizacaoDto.titulo() : titulo;
+        this.mensagem = atualizacaoDto.mensagem() != null ? atualizacaoDto.mensagem() : mensagem;
+        this.curso = curso != null ? curso : this.curso;
+    }
 }
