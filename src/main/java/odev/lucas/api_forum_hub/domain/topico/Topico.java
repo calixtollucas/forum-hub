@@ -37,9 +37,15 @@ public class Topico {
     @JoinColumn(name = "curso_id")
     private Curso curso;
 
+    private Boolean ativo;
+
     public void atualizar(TopicoAtualizacaoDto atualizacaoDto, Curso curso) {
         this.titulo = atualizacaoDto.titulo() != null ? atualizacaoDto.titulo() : titulo;
         this.mensagem = atualizacaoDto.mensagem() != null ? atualizacaoDto.mensagem() : mensagem;
         this.curso = curso != null ? curso : this.curso;
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }

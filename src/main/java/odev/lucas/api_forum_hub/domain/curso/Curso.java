@@ -20,4 +20,6 @@ public class Curso {
 
     @Enumerated(EnumType.STRING)
     private CursoCategoria categoria;
+
+    private Boolean ativo;
 }

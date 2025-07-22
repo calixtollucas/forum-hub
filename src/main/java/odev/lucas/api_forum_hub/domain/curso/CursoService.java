@@ -12,7 +12,7 @@ public class CursoService {
         this.cursoRepository = cursoRepository;
     }
     public Curso findByNome(String nome) {
-        return cursoRepository.findByNome(nome)
+        return cursoRepository.findByNomeAndAtivoTrue(nome)
                 .orElseThrow(
                         () -> {throw new DomainException("Curso não encontrado", HttpStatus.NOT_FOUND);}
         );

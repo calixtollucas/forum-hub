@@ -31,7 +31,7 @@ public class TopicoService {
 
     public Topico cadastrar(TopicoCadastroDto cadastroDto) {
         //verifica se o topico existe pelo titulo
-        boolean topicoExists = topicoRepository.existsByTituloAndMensagem(cadastroDto.titulo(), cadastroDto.mensagem());
+        boolean topicoExists = topicoRepository.existsByTituloAndMensagemAndAtivoTrue(cadastroDto.titulo(), cadastroDto.mensagem());
 
         if (topicoExists) {
             throw new DomainException("Já existe um tópico com este título e mensagem", HttpStatus.CONFLICT);
@@ -49,7 +49,8 @@ public class TopicoService {
                 LocalDate.now(),
                 Status.ABERTO,
                 autor,
-                curso);
+                curso,
+                true);
 
         topicoRepository.save(topico);
         return topico;
@@ -59,25 +60,25 @@ public class TopicoService {
 
         if (curso != null && ano != null) {
             Curso cursoEntity = cursoService.findByNome(curso);
-            return topicoRepository.findByCursoAndAno(cursoEntity, ano, pageable);
+            return topicoRepository.findByCursoAndAnoAndAtivoTrue(cursoEntity, ano, pageable);
         } else if (curso != null) {
             Curso cursoEntity = cursoService.findByNome(curso);
-            return topicoRepository.findByCurso(cursoEntity, pageable);
+            return topicoRepository.findByCursoAndAtivoTrue(cursoEntity, pageable);
         } else if (ano != null){
-            return topicoRepository.findByAno(ano, pageable);
+            return topicoRepository.findByAnoAndAtivoTrue(ano, pageable);
         } else {
-            return topicoRepository.findAll(pageable);
+            return topicoRepository.findByAtivoTrue(pageable);
         }
     }
 
     public Topico findById(Long id) {
-        return topicoRepository.findById(id).orElseThrow(() -> new DomainException("Topico não existe", HttpStatus.NOT_FOUND));
+        return topicoRepository.findByIdAndAtivoTrue(id).orElseThrow(() -> new DomainException("Topico não existe", HttpStatus.NOT_FOUND));
     }
 
     @Transactional
     public Topico atualizar(TopicoAtualizacaoDto dto, Long id) {
         //procura topico pelo id
-        Optional<Topico> topicoOptional = topicoRepository.findById(id);
+        Optional<Topico> topicoOptional = topicoRepository.findByIdAndAtivoTrue(id);
         if (topicoOptional.isEmpty()) {
             throw new DomainException("O topico não existe", HttpStatus.NOT_FOUND);
         }
@@ -93,5 +94,12 @@ public class TopicoService {
         topico.atualizar(dto, curso);
 
         return topico;
+    }
+
+    @Transactional
+    public void desativar(Long id) {
+        Optional<Topico> topicoOptional = topicoRepository.findByIdAndAtivoTrue(id);
+        Topico topico = topicoOptional.orElseThrow(() -> new DomainException("Topico não encontrado", HttpStatus.NOT_FOUND));
+        topico.desativar();
     }
 }
