@@ -67,4 +67,8 @@ public class TopicoService {
             return topicoRepository.findAll(pageable);
         }
     }
+
+    public Topico findById(Long id) {
+        return topicoRepository.findById(id).orElseThrow(() -> new DomainException("Topico não existe", HttpStatus.NOT_FOUND));
+    }
 }
