@@ -12,7 +12,7 @@ public class RespostaController {
 
     @PostMapping
     public ResponseEntity<RespostaResponseDTO> cadastrar(@RequestBody RespostaCadastroDTO cadastroDTO) {
-
+        return null;
     }
 
 }
