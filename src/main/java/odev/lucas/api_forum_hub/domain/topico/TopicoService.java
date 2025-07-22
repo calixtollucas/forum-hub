@@ -4,8 +4,10 @@ import odev.lucas.api_forum_hub.domain.curso.Curso;
 import odev.lucas.api_forum_hub.domain.curso.CursoService;
 import odev.lucas.api_forum_hub.domain.usuario.Usuario;
 import odev.lucas.api_forum_hub.domain.usuario.UsuarioService;
+import odev.lucas.api_forum_hub.infra.exceptions.DomainException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,7 +29,11 @@ public class TopicoService {
 
     public Topico cadastrar(TopicoCadastroDto cadastroDto) {
         //verifica se o topico existe pelo titulo
+        boolean topicoExists = topicoRepository.existsByTituloAndMensagem(cadastroDto.titulo(), cadastroDto.mensagem());
 
+        if (topicoExists) {
+            throw new DomainException("Já existe um tópico com este título e mensagem", HttpStatus.CONFLICT);
+        }
 
         //verifica se o curso existe
         Curso curso = cursoService.findByNome(cadastroDto.nomeCurso());

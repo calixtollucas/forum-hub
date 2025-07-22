@@ -1,5 +1,6 @@
 package odev.lucas.api_forum_hub.domain.topico;
 
+import jakarta.validation.constraints.NotBlank;
 import odev.lucas.api_forum_hub.domain.curso.Curso;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,6 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     @Query("SELECT t FROM Topico t WHERE YEAR(dataCriacao) = :ano")
     Page<Topico> findByAno(Integer ano, Pageable pageable);
+
+    boolean existsByTituloAndMensagem(String titulo, String mensagem);
 }
