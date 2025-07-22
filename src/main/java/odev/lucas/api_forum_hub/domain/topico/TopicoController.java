@@ -47,4 +47,10 @@ public class TopicoController {
         return ResponseEntity.ok(new TopicoResponseDto(topico));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TopicoResponseDto> atualizar(@RequestBody TopicoAtualizacaoDto dto, @PathVariable("id") Long id) {
+        Topico topico = topicoService.atualizar(dto, id);
+        return ResponseEntity.ok(new TopicoResponseDto(topico));
+    }
+
 }

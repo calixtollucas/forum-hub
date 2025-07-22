@@ -9,8 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class TopicoService {
@@ -70,5 +72,26 @@ public class TopicoService {
 
     public Topico findById(Long id) {
         return topicoRepository.findById(id).orElseThrow(() -> new DomainException("Topico não existe", HttpStatus.NOT_FOUND));
+    }
+
+    @Transactional
+    public Topico atualizar(TopicoAtualizacaoDto dto, Long id) {
+        //procura topico pelo id
+        Optional<Topico> topicoOptional = topicoRepository.findById(id);
+        if (topicoOptional.isEmpty()) {
+            throw new DomainException("O topico não existe", HttpStatus.NOT_FOUND);
+        }
+
+        Curso curso = null;
+        //procura o curso
+
+        if (dto.nomeCurso() != null) {
+            curso = cursoService.findByNome(dto.nomeCurso());
+        }
+
+        Topico topico = topicoOptional.get();
+        topico.atualizar(dto, curso);
+
+        return topico;
     }
 }
