@@ -50,4 +50,10 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioResponseDTO(usuario));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletar(@PathVariable("id") Long id) {
+        usuarioService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
