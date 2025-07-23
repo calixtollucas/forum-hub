@@ -36,4 +36,11 @@ public class UsuarioController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> detalhar(@PathVariable("id") Long id) {
+        Usuario usuario = usuarioService.findById(id);
+
+        return ResponseEntity.ok(new UsuarioResponseDTO(usuario));
+    }
+
 }
