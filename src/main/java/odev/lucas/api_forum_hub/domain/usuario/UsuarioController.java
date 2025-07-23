@@ -43,4 +43,10 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioResponseDTO(usuario));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable("id") Long id,
+                                                        @RequestBody UsuarioAtualizacaoDTO atualizacaoDTO) {
+
+    }
+
 }
