@@ -63,4 +63,19 @@ public class UsuarioService implements UserDetailsService {
     public Page<Usuario> listarTodosPageavel(Pageable pageable) {
         return usuarioRepository.findByAtivoTrue(pageable);
     }
+
+    public Usuario atualizar(Long id, UsuarioAtualizacaoDTO atualizacaoDTO) {
+        //verifica se o usuario existe
+        boolean usuarioExiste = usuarioRepository.existsById(id);
+
+        if(!usuarioExiste) {
+            throw new DomainException("Usuario não encontrado ou não existe", HttpStatus.NOT_FOUND);
+        }
+
+        Usuario usuario = usuarioRepository.getReferenceById(id);
+        usuario.atualizar(atualizacaoDTO);
+
+        usuarioRepository.save(usuario);
+        return usuario;
+    }
 }

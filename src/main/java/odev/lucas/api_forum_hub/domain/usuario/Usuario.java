@@ -81,4 +81,8 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return this.ativo;
     }
+
+    public void atualizar(UsuarioAtualizacaoDTO atualizacaoDTO) {
+        this.nome = atualizacaoDTO.nome() != null ? atualizacaoDTO.nome() : this.nome;
+    }
 }
