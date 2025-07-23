@@ -1,11 +1,11 @@
 package odev.lucas.api_forum_hub.domain.usuario;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -25,6 +25,15 @@ public class UsuarioController {
         UsuarioResponseDTO response = new UsuarioResponseDTO(usuario);
 
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<UsuarioResponseDTO>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
+        Page<UsuarioResponseDTO> pages = usuarioService.listarTodosPageavel(pageable).map(
+                UsuarioResponseDTO::new
+        );
+        return ResponseEntity.ok(pages);
+
     }
 
 }

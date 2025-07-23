@@ -5,6 +5,8 @@ import odev.lucas.api_forum_hub.domain.perfil.Perfil;
 import odev.lucas.api_forum_hub.domain.perfil.PerfilEntity;
 import odev.lucas.api_forum_hub.domain.perfil.PerfilService;
 import odev.lucas.api_forum_hub.infra.exceptions.DomainException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -56,5 +58,9 @@ public class UsuarioService implements UserDetailsService {
                 () -> {throw new DomainException("Usuario não encontrado ou não existe", HttpStatus.NOT_FOUND);
                 }
         );
+    }
+
+    public Page<Usuario> listarTodosPageavel(Pageable pageable) {
+        return usuarioRepository.findByAtivoTrue(pageable);
     }
 }
