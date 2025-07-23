@@ -3,6 +3,7 @@ package odev.lucas.api_forum_hub.domain.usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,7 +28,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UsuarioResponseDTO>> listar(Pageable pageable) {
+    public ResponseEntity<Page<UsuarioResponseDTO>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
         Page<UsuarioResponseDTO> pages = usuarioService.listarTodosPageavel(pageable).map(
                 UsuarioResponseDTO::new
         );
