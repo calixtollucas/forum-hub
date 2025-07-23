@@ -1,20 +1,49 @@
 package odev.lucas.api_forum_hub.domain.usuario;
 
 import jakarta.validation.constraints.NotNull;
+import odev.lucas.api_forum_hub.domain.perfil.Perfil;
+import odev.lucas.api_forum_hub.domain.perfil.PerfilEntity;
+import odev.lucas.api_forum_hub.domain.perfil.PerfilService;
 import odev.lucas.api_forum_hub.infra.exceptions.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PerfilService perfilService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+                          PerfilService perfilService,
+                          PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.perfilService = perfilService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public Usuario cadastrar(UsuarioCadastroDTO cadastroDTO) {
+        Boolean usuarioExiste = usuarioRepository.existsByEmail(cadastroDTO.email());
+
+        if(usuarioExiste) {
+            throw new DomainException("Já existe um usuário com este email", HttpStatus.CONFLICT);
+        }
+
+        PerfilEntity perfil = perfilService.findByNome(Perfil.ALUNO);
+        String senha = passwordEncoder.encode(cadastroDTO.senha());
+
+        Usuario usuario = new Usuario(cadastroDTO.nome(), cadastroDTO.email(), senha, List.of(perfil));
+        usuarioRepository.save(usuario);
+        return usuario;
     }
 
     @Override
