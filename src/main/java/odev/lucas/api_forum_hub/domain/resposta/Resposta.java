@@ -34,4 +34,12 @@ public class Resposta {
     private Usuario autor;
 
     private String solucao;
+
+    public Resposta(String mensagem, Topico topico, Usuario autor, String solucao) {
+        this.mensagem = mensagem;
+        this.topico = topico;
+        this.autor = autor;
+        this.dataCriacao = LocalDate.now();
+        this.solucao = solucao;
+    }
 }

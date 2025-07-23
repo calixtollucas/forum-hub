@@ -13,4 +13,12 @@ public record RespostaResponseDTO(
         UsuarioResponseDTO autor,
         String solucao
 ) {
+    public RespostaResponseDTO(Resposta resposta) {
+        this(resposta.getId(),
+                resposta.getMensagem(),
+                new TopicoResponseDto(resposta.getTopico()),
+                resposta.getDataCriacao(),
+                new UsuarioResponseDTO(resposta.getAutor()),
+                resposta.getSolucao());
+    }
 }
