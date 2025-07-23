@@ -64,6 +64,7 @@ public class UsuarioService implements UserDetailsService {
         return usuarioRepository.findByAtivoTrue(pageable);
     }
 
+    @Transactional
     public Usuario atualizar(Long id, UsuarioAtualizacaoDTO atualizacaoDTO) {
         //verifica se o usuario existe
         boolean usuarioExiste = usuarioRepository.existsById(id);
@@ -77,5 +78,13 @@ public class UsuarioService implements UserDetailsService {
 
         usuarioRepository.save(usuario);
         return usuario;
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+        Usuario usuario = findById(id);
+        usuario.desativar();
+
+        usuarioRepository.save(usuario);
     }
 }

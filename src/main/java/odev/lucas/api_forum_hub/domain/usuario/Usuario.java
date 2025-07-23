@@ -85,4 +85,8 @@ public class Usuario implements UserDetails {
     public void atualizar(UsuarioAtualizacaoDTO atualizacaoDTO) {
         this.nome = atualizacaoDTO.nome() != null ? atualizacaoDTO.nome() : this.nome;
     }
+
+    public void desativar() {
+        this.ativo = false;
+    }
 }
