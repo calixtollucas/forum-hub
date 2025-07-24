@@ -50,4 +50,12 @@ public class RespostaService {
     public Resposta buscarPorId(Long id) {
         return respostaRepository.findById(id).orElseThrow(() -> new DomainException("Resposta não encontrada ou não existe", HttpStatus.NOT_FOUND));
     }
+
+    public Resposta atualizar(RespostaAtualizacaoDTO dto, Long id) {
+        Resposta resposta = this.buscarPorId(id);
+        resposta.atualizar(dto);
+
+        respostaRepository.save(resposta);
+        return resposta;
+    }
 }

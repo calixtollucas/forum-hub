@@ -1,6 +1,9 @@
 package odev.lucas.api_forum_hub.domain.resposta;
 
 import jakarta.validation.Valid;
+import odev.lucas.api_forum_hub.domain.topico.Topico;
+import odev.lucas.api_forum_hub.domain.topico.TopicoAtualizacaoDto;
+import odev.lucas.api_forum_hub.domain.topico.TopicoResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +42,12 @@ public class RespostaController {
     @GetMapping("/{id}")
     public ResponseEntity<RespostaResponseDTO> detalhar(@PathVariable("id") Long id) {
         Resposta resposta = respostaService.buscarPorId(id);
+        return ResponseEntity.ok(new RespostaResponseDTO(resposta));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RespostaResponseDTO> atualizar(@RequestBody RespostaAtualizacaoDTO dto, @PathVariable("id") Long id) {
+        Resposta resposta = respostaService.atualizar(dto, id);
         return ResponseEntity.ok(new RespostaResponseDTO(resposta));
     }
 

@@ -42,4 +42,9 @@ public class Resposta {
         this.dataCriacao = LocalDate.now();
         this.solucao = solucao;
     }
+
+    public void atualizar(RespostaAtualizacaoDTO dto) {
+        this.mensagem = dto.mensagem() != null  && !dto.mensagem().isBlank() ? dto.mensagem() : mensagem;
+        this.solucao = dto.solucao() != null && !dto.solucao().isBlank() ? dto.solucao() : solucao;
+    }
 }
