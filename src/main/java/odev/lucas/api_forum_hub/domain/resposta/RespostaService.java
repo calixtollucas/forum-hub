@@ -52,6 +52,10 @@ public class RespostaService {
     }
 
     public Resposta atualizar(RespostaAtualizacaoDTO dto, Long id) {
-        return null;
+        Resposta resposta = this.buscarPorId(id);
+        resposta.atualizar(dto);
+
+        respostaRepository.save(resposta);
+        return resposta;
     }
 }
