@@ -6,8 +6,12 @@ import odev.lucas.api_forum_hub.domain.topico.TopicoService;
 import odev.lucas.api_forum_hub.domain.usuario.Usuario;
 import odev.lucas.api_forum_hub.domain.usuario.UsuarioService;
 import odev.lucas.api_forum_hub.infra.exceptions.DomainException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,5 +35,15 @@ public class RespostaService {
 
         respostaRepository.save(resposta);
         return resposta;
+    }
+
+    public Page<Resposta> buscarTodas(Pageable pageable) {
+        return respostaRepository.findAll(pageable);
+    }
+
+    public Page<Resposta> buscarPorTopicoPageable(Long id, Pageable pageable) {
+        Topico topico = topicoService.findById(id);
+        Page<Resposta> respostas = respostaRepository.findByTopico(topico, pageable);
+        return respostas;
     }
 }
