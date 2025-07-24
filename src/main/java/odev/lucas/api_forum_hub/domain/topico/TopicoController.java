@@ -1,5 +1,6 @@
 package odev.lucas.api_forum_hub.domain.topico;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import odev.lucas.api_forum_hub.domain.resposta.RespostaResponseDTO;
 import odev.lucas.api_forum_hub.domain.resposta.RespostaService;
@@ -16,6 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicoController {
 
     private final TopicoService topicoService;
