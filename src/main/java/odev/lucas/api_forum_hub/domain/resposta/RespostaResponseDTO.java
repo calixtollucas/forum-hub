@@ -11,7 +11,8 @@ public record RespostaResponseDTO(
         TopicoResponseDto topico,
         LocalDate dataCriacao,
         UsuarioResponseDTO autor,
-        String solucao
+        String solucao,
+        boolean ativo
 ) {
     public RespostaResponseDTO(Resposta resposta) {
         this(resposta.getId(),
@@ -19,6 +20,7 @@ public record RespostaResponseDTO(
                 new TopicoResponseDto(resposta.getTopico()),
                 resposta.getDataCriacao(),
                 new UsuarioResponseDTO(resposta.getAutor()),
-                resposta.getSolucao());
+                resposta.getSolucao(),
+                resposta.getAtivo());
     }
 }

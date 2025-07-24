@@ -35,16 +35,23 @@ public class Resposta {
 
     private String solucao;
 
+    private Boolean ativo;
+
     public Resposta(String mensagem, Topico topico, Usuario autor, String solucao) {
         this.mensagem = mensagem;
         this.topico = topico;
         this.autor = autor;
         this.dataCriacao = LocalDate.now();
         this.solucao = solucao;
+        this.ativo = true;
     }
 
     public void atualizar(RespostaAtualizacaoDTO dto) {
         this.mensagem = dto.mensagem() != null  && !dto.mensagem().isBlank() ? dto.mensagem() : mensagem;
         this.solucao = dto.solucao() != null && !dto.solucao().isBlank() ? dto.solucao() : solucao;
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }

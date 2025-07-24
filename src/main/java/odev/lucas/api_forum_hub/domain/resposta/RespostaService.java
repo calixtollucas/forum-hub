@@ -23,7 +23,7 @@ public class RespostaService {
 
     public Resposta cadastrar(RespostaCadastroDTO cadastroDTO) {
         //verifica se é igual pela mensagem
-        boolean respostaExiste = respostaRepository.existsByMensagem(cadastroDTO.mensagem());
+        boolean respostaExiste = respostaRepository.existsByMensagemAndAtivoTrue(cadastroDTO.mensagem());
 
         if(respostaExiste) {
             throw new DomainException("Esta Resposta já existe", HttpStatus.CONFLICT);
@@ -38,17 +38,17 @@ public class RespostaService {
     }
 
     public Page<Resposta> buscarTodas(Pageable pageable) {
-        return respostaRepository.findAll(pageable);
+        return respostaRepository.findByAtivoTrue(pageable);
     }
 
     public Page<Resposta> buscarPorTopicoPageable(Long id, Pageable pageable) {
         Topico topico = topicoService.findById(id);
-        Page<Resposta> respostas = respostaRepository.findByTopico(topico, pageable);
+        Page<Resposta> respostas = respostaRepository.findByTopicoAndAtivoTrue(topico, pageable);
         return respostas;
     }
 
     public Resposta buscarPorId(Long id) {
-        return respostaRepository.findById(id).orElseThrow(() -> new DomainException("Resposta não encontrada ou não existe", HttpStatus.NOT_FOUND));
+        return respostaRepository.findByIdAndAtivoTrue(id).orElseThrow(() -> new DomainException("Resposta não encontrada ou não existe", HttpStatus.NOT_FOUND));
     }
 
     public Resposta atualizar(RespostaAtualizacaoDTO dto, Long id) {
@@ -57,5 +57,11 @@ public class RespostaService {
 
         respostaRepository.save(resposta);
         return resposta;
+    }
+
+    public void desativar(Long id) {
+        Resposta resposta = buscarPorId(id);
+        resposta.desativar();
+        respostaRepository.save(resposta);
     }
 }
