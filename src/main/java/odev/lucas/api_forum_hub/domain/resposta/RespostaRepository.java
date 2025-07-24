@@ -7,9 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface RespostaRepository extends JpaRepository<Resposta, Long> {
     boolean existsByMensagem(String mensagem);
 
-    Page<Resposta> findByTopico(Topico topico, Pageable pageable);
+    Page<Resposta> findByTopicoAndAtivoTrue(Topico topico, Pageable pageable);
+
+    boolean existsByMensagemAndAtivoTrue(String mensagem);
+
+    Page<Resposta> findByAtivoTrue(Pageable pageable);
+
+    Optional<Resposta> findByIdAndAtivoTrue(Long id);
 }
