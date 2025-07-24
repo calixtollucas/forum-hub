@@ -1,5 +1,6 @@
 package odev.lucas.api_forum_hub.domain.resposta;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/respostas")
+@SecurityRequirement(name = "bearer-key")
 public class RespostaController {
 
     private final RespostaService respostaService;

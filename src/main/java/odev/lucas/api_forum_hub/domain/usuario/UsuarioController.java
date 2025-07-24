@@ -1,5 +1,6 @@
 package odev.lucas.api_forum_hub.domain.usuario;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
