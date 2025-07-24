@@ -1,6 +1,8 @@
 package odev.lucas.api_forum_hub.domain.topico;
 
 import jakarta.validation.Valid;
+import odev.lucas.api_forum_hub.domain.resposta.RespostaResponseDTO;
+import odev.lucas.api_forum_hub.domain.resposta.RespostaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,9 +19,11 @@ import java.net.URI;
 public class TopicoController {
 
     private final TopicoService topicoService;
+    private final RespostaService respostaService;
 
-    public TopicoController(TopicoService topicoService) {
+    public TopicoController(TopicoService topicoService, RespostaService respostaService) {
         this.topicoService = topicoService;
+        this.respostaService = respostaService;
     }
 
     @PostMapping
@@ -57,6 +61,16 @@ public class TopicoController {
     public ResponseEntity deletar(@PathVariable("id") Long id) {
         topicoService.desativar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("{id}/respostas")
+    public ResponseEntity<Page<RespostaResponseDTO>> listarRespostasPorTopico(@PathVariable("id") Long id,
+                                                                              Pageable pageable) {
+        Page<RespostaResponseDTO> respostas = respostaService.buscarPorTopicoPageable(id, pageable).map(
+                RespostaResponseDTO::new
+        );
+
+        return ResponseEntity.ok(respostas);
     }
 
 }

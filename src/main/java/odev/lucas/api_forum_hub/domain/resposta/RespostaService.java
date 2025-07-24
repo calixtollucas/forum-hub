@@ -40,4 +40,10 @@ public class RespostaService {
     public Page<Resposta> buscarTodas(Pageable pageable) {
         return respostaRepository.findAll(pageable);
     }
+
+    public Page<Resposta> buscarPorTopicoPageable(Long id, Pageable pageable) {
+        Topico topico = topicoService.findById(id);
+        Page<Resposta> respostas = respostaRepository.findByTopico(topico, pageable);
+        return respostas;
+    }
 }
