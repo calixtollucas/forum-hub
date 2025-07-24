@@ -54,7 +54,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getPassword();
+        return this.senha;
     }
 
     @Override
