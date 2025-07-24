@@ -50,7 +50,8 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        throw new RuntimeException("Unimplemented");
+        System.out.println("username:"+username);
+        return usuarioRepository.findByEmail(username);
     }
 
     public Usuario findById(@NotNull Long usuarioId) {
