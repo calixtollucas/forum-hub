@@ -26,7 +26,7 @@ public class JWTProvider {
             return JWT.create()
                     .withIssuer("api-forum-hub")
                     .withExpiresAt(gerarExpiracao())
-                    .withSubject(usuario.getId().toString())
+                    .withSubject(usuario.getEmail().toString())
                     .sign(alg);
         } catch (JWTCreationException ex) {
             throw new DomainException("Erro ao criar o token JWT, contate o suporte", HttpStatus.INTERNAL_SERVER_ERROR);
