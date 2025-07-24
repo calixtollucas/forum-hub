@@ -46,4 +46,8 @@ public class RespostaService {
         Page<Resposta> respostas = respostaRepository.findByTopico(topico, pageable);
         return respostas;
     }
+
+    public Resposta buscarPorId(Long id) {
+        return respostaRepository.findById(id).orElseThrow(() -> new DomainException("Resposta não encontrada ou não existe", HttpStatus.NOT_FOUND));
+    }
 }
